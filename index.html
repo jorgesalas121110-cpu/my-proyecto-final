@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Susana</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.55);
+      padding: 35px;
+      border-radius: 20px;
+      max-width: 420px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+      animation: fadeIn 2s ease;
+      z-index: 2;
+    }
+
+    h1 { font-size: 2.1em; }
+    p { font-size: 1.1em; line-height: 1.6; }
+
+    button {
+      background: #ff4d6d;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background: #ff6f91;
+      transform: scale(1.05);
+    }
+
+    .hidden { display: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      transform: rotate(45deg);
+      animation: float 8s infinite ease-in;
+      opacity: 0.6;
+      z-index: 1;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before { top: -10px; }
+    .heart::after { left: -10px; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+      50% { opacity: 0.7; }
+      100% { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div id="welcomePage">
+    <h1>Hola Susana</h1>
+    <p style="font-size: 1.4em;">💕</p>
+    <button id="startBtn">Continuar</button>
+  </div>
+
+  <div id="mainContent" class="hidden">
+    <p id="text"></p>
+    <button id="nextBtn">Continuar</button>
+  </div>
+
+</div>
+
+<audio id="backgroundMusic" loop>
+  <source src="donde-nadie-pueda-ir.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+const welcomePage = document.getElementById("welcomePage");
+const mainContent = document.getElementById("mainContent");
+const nextBtn = document.getElementById("nextBtn");
+const text = document.getElementById("text");
+const music = document.getElementById("backgroundMusic");
+
+let step = 0;
+
+const messages = [
+`Todo comenzó el <strong>20 de noviembre</strong> 📅,<br>
+afuera del salón de <strong>tenis de mesa</strong> 🏓.<br><br>
+Ese día no fue uno cualquiera…<br>
+fue el día en que te vi y me gustaste desde el primer momento.`,
+
+`Cuando me acerqué contigo junto a Mariano para hablar de música 🎶,<br>
+no fue algo al azar.<br><br>
+Lo planeé, porque desde ese momento quería conocerte mejor 💙.`,
+
+`Un día te invité al salón de tenis de mesa para una competencia 🏓.<br><br>
+Y aunque perdí la competencia…<br>
+yo ya había ganado,<br>
+porque fuiste a verme jugar 😊.`,
+
+`Luego llegó el día que te invité al <strong>Buenavista</strong> 🏙️💫.<br><br>
+El mejor y el peor día de mi vida.<br><br>
+El mejor, porque fue una especie de cita contigo 💕.<br>
+El peor, porque ese mismo día te tenías que ir 😔.`,
+
+`Desde entonces hemos hablado por WhatsApp 📱,<br>
+y cada conversación contigo se ha vuelto<br>
+uno de los momentos más felices de mi día ✨.<br><br>
+Hoy, que ya ha pasado <strong>un mes</strong> desde que nos conocimos ⏳,<br>
+quiero hacerte una pregunta que llevo guardando en el corazón ❤️:`,
+
+`<strong>
+¿Quieres ser mi novia y la persona que me acompañe<br>
+en todas las aventuras que tengo planeadas? 🌍🚀
+</strong>`
+];
+
+startBtn.onclick = () => {
+  music.play();
+  welcomePage.classList.add("hidden");
+  mainContent.classList.remove("hidden");
+  text.innerHTML = messages[0];
+};
+
+nextBtn.onclick = () => {
+  step++;
+
+  if (step < messages.length) {
+    text.innerHTML = messages[step];
+
+    // Si es el último mensaje, ocultar el botón
+    if (step === messages.length - 1) {
+      nextBtn.classList.add("hidden");
+    }
+  }
+};
+
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 600);
+</script>
+
+</body>
+</html>
